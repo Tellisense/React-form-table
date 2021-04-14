@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import axios from 'axios'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -14,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function Form() {
+export default function Form({ renderApi }) {
   const classes = useStyles();
 
   const [formData, setFormData] = useState({
@@ -36,20 +37,37 @@ export default function Form() {
   }
 
 
-  const handleSubmit = e => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log(formData)
+
+    try {
+      const { data } = await axios.post('http://localhost:1337/orders', formData)
+      console.log(data)
+      renderApi()
+      setFormData({
+        appetizer: '',
+        drink: '',
+        mainCourse: '',
+        dessert: '',
+        email: ''
+      })
+
+    } catch (ex) {
+      console.log(ex)
+    }
+
+
   }
 
 
 
   return (
     <form onSubmit={handleSubmit} className={classes.root} noValidate autoComplete="off">
-      <TextField type="text" name="appetizer" value={formData.appetizer} onChange={handleChange} id="appetizer" label="Appetizer" variant="outlined" />
-      <TextField type="text" name="drink" value={formData.drink} onChange={handleChange} id="drink" label="Drink" variant="outlined" />
-      <TextField type="text" name="mainCourse" value={formData.mainCourse} onChange={handleChange} id="main-course" label="Main Course" variant="outlined" />
-      <TextField type="text" name="dessert" value={formData.dessert} onChange={handleChange} id="dessert" label="Dessert" variant="outlined" />
-      <TextField type="email" name="email" value={formData.email} onChange={handleChange} id="email" label="Email" variant="outlined" />
+      <TextField type="text" name="appetizer" placeholder="Appetizer" value={formData.appetizer} onChange={handleChange} id="appetizer" label="Appetizer" variant="outlined" />
+      <TextField type="text" name="drink" placeholder="drink" value={formData.drink} onChange={handleChange} id="drink" label="Drink" variant="outlined" />
+      <TextField type="text" name="mainCourse" placeholder="Main Course" value={formData.mainCourse} onChange={handleChange} id="main-course" label="Main Course" variant="outlined" />
+      <TextField type="text" name="dessert" placeholder="dessert" value={formData.dessert} onChange={handleChange} id="dessert" label="Dessert" variant="outlined" />
+      <TextField type="email" name="email" placeholder="john@example.com" value={formData.email} onChange={handleChange} id="email" label="Email" variant="outlined" />
       <Button type="submit" variant="contained" color="secondary">
         Submit
 </Button>
