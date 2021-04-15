@@ -1,5 +1,6 @@
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
+import { Button } from "@material-ui/core";
 
 import React, { useEffect, useState } from "react";
 
@@ -21,6 +22,10 @@ function App() {
   // const [callApi, setCallApi] = useState(0);
   const [callApi, setCallApi] = useState(false);
 
+  const openModal = () => {
+    console.log("open Modal");
+  };
+
   // api call from strapi
   useEffect(() => {
     try {
@@ -41,11 +46,15 @@ function App() {
 
   return (
     <Container className={classes.container} maxWidth='md'>
+      <Button onClick={openModal} variant='contained' color='primary'>
+        Click Me
+      </Button>
+      {/* 
       <div>Table length: {tableData.length}</div>
       <div>Number of times clicked: {counter}</div>
 
       <Form setCounter={setCounter} counter={counter} renderApi={renderApi} />
-      <Table renderApi={renderApi} data={tableData} />
+      <Table renderApi={renderApi} data={tableData} /> */}
     </Container>
   );
 }

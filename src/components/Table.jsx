@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Table = ({ data, renderApi }) => {
   const [message, setMessage] = useState('')
-  const [edit, setEdit] = useState(false)
+  const [editable, setEditable] = useState(false)
   const classes = useStyles()
   const [formData, setFormData] = useState({
     appetizer: '',
@@ -49,8 +49,16 @@ const Table = ({ data, renderApi }) => {
     // console.log(`deleted line with id ${id}`)
   }
   const handleEdit = (id) => {
-    setEdit(true)
+    setEditable(true)
     console.log(`Update line with id ${id}`)
+  }
+
+  const handleChange = e => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    })
+    console.log(`formData: `, formData)
   }
 
 
@@ -71,12 +79,12 @@ const Table = ({ data, renderApi }) => {
           {data?.map((item) => {
             return (
               <tr key={item.id}>
-                <td>{edit ? <input type="text" name={item.appetizer} value={formData.appetizer} /> : item.appetizer}</td>
-                <td>{item.drink}</td>
-                <td>{item.mainCourse}</td>
-                <td>{item.dessert}</td>
-                <td>{item.email}</td>
-                <td onClick={() => handleEdit(item.id)} className={`${edit ? classes.block : classes.displayNone} ${classes.pointer} ${classes.green}`}><DoneIcon /></td>
+                <td>{editable ? <input placeholder={item.appetizer} type="text" onChange={handleChange} name="appetizer" value={formData.appetizer} /> : item.appetizer}</td>
+                <td>{editable ? <input type="text" onChange={handleChange} name="drink" value={formData.drink} /> : item.drink}</td>
+                <td>{editable ? <input type="text" onChange={handleChange} name={item.mainCourse} value={formData.mainCourse} /> : item.mainCourse}</td>
+                <td>{editable ? <input type="text" onChange={handleChange} name="dessert" value={formData.dessert} /> : item.dessert}</td>
+                <td>{editable ? <input type="text" onChange={handleChange} name="email" value={formData.email} /> : item.email}</td>
+                <td onClick={() => handleEdit(item.id)} className={`${editable ? classes.block : classes.displayNone} ${classes.pointer} ${classes.green}`}><DoneIcon /></td>
                 <td onClick={() => handleEdit(item.id)} className={classes.pointer}><EditIcon /></td>
                 <td onClick={() => handleDelete(item.id)} className={classes.pointer}><DeleteForeverIcon /></td>
               </tr>
