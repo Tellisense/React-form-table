@@ -5,8 +5,8 @@ import React, { useEffect, useState } from "react";
 
 import axios from "axios";
 
-import Table from "./components/EnhancedTable";
 import Form from "./components/Form";
+import Table from "./components/Table";
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -17,6 +17,7 @@ const useStyles = makeStyles(theme => ({
 function App() {
   const classes = useStyles();
   const [tableData, setTableData] = useState([]);
+  const [counter, setCounter] = useState(0);
   // const [callApi, setCallApi] = useState(0);
   const [callApi, setCallApi] = useState(false);
 
@@ -34,22 +35,17 @@ function App() {
     }
   }, [callApi]);
 
-  // setTimeout(() => {
-  //   setCallApi(callApi + 1);
-  // }, 1000);
-
   const renderApi = () => {
     setCallApi(!callApi);
   };
 
-  console.log(`tableData: `, tableData);
-
   return (
     <Container className={classes.container} maxWidth='md'>
-      {/* <div>Api Count</div>
-      <span>{callApi}</span> */}
-      <Form renderApi={renderApi} />
-      <Table data={tableData} />
+      <div>Table length: {tableData.length}</div>
+      <div>Number of times clicked: {counter}</div>
+
+      <Form setCounter={setCounter} counter={counter} renderApi={renderApi} />
+      <Table renderApi={renderApi} data={tableData} />
     </Container>
   );
 }

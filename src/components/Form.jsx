@@ -15,9 +15,8 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function Form({ renderApi }) {
+export default function Form({ renderApi, setCounter, counter }) {
   const classes = useStyles();
-
   const [formData, setFormData] = useState({
     appetizer: '',
     drink: '',
@@ -43,6 +42,7 @@ export default function Form({ renderApi }) {
     try {
       const { data } = await axios.post('http://localhost:1337/orders', formData)
       console.log(data)
+      setCounter(counter + 1)
       renderApi()
       setFormData({
         appetizer: '',
