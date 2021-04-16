@@ -1,12 +1,14 @@
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
+import { SignalCellularNull } from "@material-ui/icons";
 
 import React, { useEffect, useState } from "react";
 
 import axios from "axios";
 
 import Form from "./components/Form";
+import Modal from "./components/Modal";
 import Table from "./components/Table";
 
 const useStyles = makeStyles(theme => ({
@@ -19,11 +21,12 @@ function App() {
   const classes = useStyles();
   const [tableData, setTableData] = useState([]);
   const [counter, setCounter] = useState(0);
+  const [openModal, setOpenModal] = useState(false);
   // const [callApi, setCallApi] = useState(0);
   const [callApi, setCallApi] = useState(false);
 
-  const openModal = () => {
-    console.log("open Modal");
+  const handleOpenModal = () => {
+    setOpenModal(!openModal);
   };
 
   // api call from strapi
@@ -46,8 +49,11 @@ function App() {
 
   return (
     <Container className={classes.container} maxWidth='md'>
-      <Button onClick={openModal} variant='contained' color='primary'>
-        Click Me
+      <Modal open={openModal}>
+        <div>Modal Content</div>
+      </Modal>
+      <Button onClick={handleOpenModal} variant='contained' color='primary'>
+        Open Modal
       </Button>
       {/* 
       <div>Table length: {tableData.length}</div>
