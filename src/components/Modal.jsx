@@ -6,7 +6,6 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 const useStyles = makeStyles((theme) => ({
   show: {
     display: 'block',
-
   },
   hide: {
     display: 'none'
