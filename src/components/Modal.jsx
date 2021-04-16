@@ -14,6 +14,8 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
     backgroundColor: 'lightgray',
+    borderTopRightRadius: 10,
+    borderTopLeftRadius: 10,
     height: 50,
     alignItems: 'center',
     padding: '0 15px'
