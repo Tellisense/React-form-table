@@ -44,23 +44,24 @@ function App() {
   }, [callApi]);
 
   const renderApi = () => {
+    console.log(`renderAPI called`);
     setCallApi(!callApi);
   };
 
   return (
     <Container className={classes.container} maxWidth='md'>
-      <Modal open={openModal}>
-        <div>Modal Content</div>
+      <Modal openModal={openModal} handleOpenModal={handleOpenModal}>
+        Modal content
       </Modal>
       <Button onClick={handleOpenModal} variant='contained' color='primary'>
         Open Modal
       </Button>
-      {/* 
+
       <div>Table length: {tableData.length}</div>
       <div>Number of times clicked: {counter}</div>
 
       <Form setCounter={setCounter} counter={counter} renderApi={renderApi} />
-      <Table renderApi={renderApi} data={tableData} /> */}
+      <Table renderApi={renderApi} data={tableData} />
     </Container>
   );
 }
