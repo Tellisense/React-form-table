@@ -1,12 +1,11 @@
-import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
-import { SignalCellularNull } from "@material-ui/icons";
 
 import React, { useEffect, useState } from "react";
 
 import axios from "axios";
 
+import Container from "./components/Container";
 import Form from "./components/Form";
 import Modal from "./components/Modal";
 import Table from "./components/Table";
@@ -49,7 +48,7 @@ function App() {
   };
 
   return (
-    <Container className={classes.container} maxWidth='md'>
+    <Container className={classes.container}>
       <Modal openModal={openModal} handleOpenModal={handleOpenModal}>
         Modal content
       </Modal>

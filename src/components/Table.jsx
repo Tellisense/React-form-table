@@ -52,10 +52,12 @@ const Table = ({ data, renderApi }) => {
   })
 
 
+
   const handleDelete = async (id) => {
     try {
       const { data } = await axios.delete(`http://localhost:1337/orders/${id}`)
       renderApi()
+      console.log(`delete: `, data)
       setMessage(`successfully deleted`)
       setTimeout(() => { setMessage('') }, 2000)
     } catch (error) {
@@ -80,6 +82,7 @@ const Table = ({ data, renderApi }) => {
     try {
       const { data } = await axios.put(`http://localhost:1337/orders/${id}`, formData)
       renderApi()
+      console.log(`update:`, data)
       setEditable(false)
       setMessage(`successfully Updated`)
 
