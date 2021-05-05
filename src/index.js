@@ -7,12 +7,15 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 
 import ThemProvider from "./context/ThemeProvider";
+import UserContext from "./context/UserProvider";
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemProvider>
-      <App />
-    </ThemProvider>
+    <UserContext>
+      <ThemProvider>
+        <App />
+      </ThemProvider>
+    </UserContext>
   </React.StrictMode>,
   document.getElementById("root")
 );

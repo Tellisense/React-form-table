@@ -1,18 +1,23 @@
 import { makeStyles } from "@material-ui/core/styles";
-import { Button } from "@material-ui/core";
 
 import React, { useEffect, useState } from "react";
 
 import axios from "axios";
 
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+
 import Container from "./components/Container";
 import Form from "./components/Form";
-import Modal from "./components/Modal";
+import Login2 from "./components/Login2";
+import Navbar from "./components/Navbar";
 import Table from "./components/Table";
 
 const useStyles = makeStyles(theme => ({
   container: {
     marginTop: "4rem",
+  },
+  nav: {
+    display: "flex",
   },
 }));
 
@@ -21,14 +26,8 @@ function App() {
   const [tableData, setTableData] = useState([]);
   const [counter, setCounter] = useState(0);
   const [openModal, setOpenModal] = useState(false);
-  // const [callApi, setCallApi] = useState(0);
   const [callApi, setCallApi] = useState(false);
 
-  const handleOpenModal = () => {
-    setOpenModal(!openModal);
-  };
-
-  // api call from strapi
   useEffect(() => {
     try {
       const api = async () => {
@@ -49,20 +48,51 @@ function App() {
 
   return (
     <Container className={classes.container}>
-      <Modal openModal={openModal} handleOpenModal={handleOpenModal}>
-        Modal content
-      </Modal>
-      <Button onClick={handleOpenModal} variant='contained' color='primary'>
-        Open Modal
-      </Button>
-
-      <div>Table length: {tableData.length}</div>
-      <div>Number of times clicked: {counter}</div>
-
-      <Form setCounter={setCounter} counter={counter} renderApi={renderApi} />
-      <Table renderApi={renderApi} data={tableData} />
+      <Router>
+        <Navbar>
+          <div className={classes.nav}>
+            <nav>
+              <ul>
+                <li>
+                  <Link to='/'>Table</Link>
+                </li>
+                <li>
+                  <Link to='/login'>Login</Link>
+                </li>
+                <li>
+                  <Link to='/users'>Users</Link>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </Navbar>
+        <Switch>
+          <Route path='/login'>
+            <Login2 />
+          </Route>
+          <Route path='/users'>
+            <Users />
+          </Route>
+          <Route path='/'>
+            <Form
+              setCounter={setCounter}
+              counter={counter}
+              renderApi={renderApi}
+            />
+            <Table renderApi={renderApi} data={tableData} />
+          </Route>
+        </Switch>
+      </Router>
     </Container>
   );
 }
 
 export default App;
+
+function About() {
+  return <h2>About</h2>;
+}
+
+function Users() {
+  return <h2>Users</h2>;
+}

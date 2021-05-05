@@ -1,10 +1,9 @@
 import React from 'react'
 import { useTheme } from '../context/ThemeProvider'
-// import { ThemeContext } from '../context/ThemeProvider'
+
 
 const Container = ({ children }) => {
   const theme = useTheme()
-  // const Theme = React.useContext(ThemeContext)
 
   const handleClick = () => {
     theme.setDarkMode(!theme.darkMode)
