@@ -10,6 +10,7 @@ import Container from "./components/Container";
 import Form from "./components/Form";
 import Login2 from "./components/Login2";
 import Navbar from "./components/Navbar";
+import Register from "./components/Register";
 import Table from "./components/Table";
 
 const useStyles = makeStyles(theme => ({
@@ -31,7 +32,11 @@ function App() {
   useEffect(() => {
     try {
       const api = async () => {
-        const { data } = await axios.get("http://localhost:1337/orders");
+        const { data } = await axios.get("http://localhost:1337/orders", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
         setTableData(data);
         console.log(data);
       };
@@ -60,6 +65,9 @@ function App() {
                   <Link to='/login'>Login</Link>
                 </li>
                 <li>
+                  <Link to='/register'>Register</Link>
+                </li>
+                <li>
                   <Link to='/users'>Users</Link>
                 </li>
               </ul>
@@ -69,6 +77,9 @@ function App() {
         <Switch>
           <Route path='/login'>
             <Login2 />
+          </Route>
+          <Route path='/register'>
+            <Register />
           </Route>
           <Route path='/users'>
             <Users />
