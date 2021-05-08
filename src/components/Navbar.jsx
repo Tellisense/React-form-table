@@ -11,7 +11,6 @@ import { useUser } from '../context/UserProvider'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
     marginBottom: '3rem'
   },
   menuButton: {
@@ -20,6 +19,11 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
+  nav: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  }
 }));
 
 export default function ButtonAppBar({ children }) {
@@ -29,17 +33,16 @@ export default function ButtonAppBar({ children }) {
 
 
   return (
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar >
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
-          {children}
-        </Toolbar>
+    <AppBar position="static">
+      <Toolbar className={classes.nav}>
+        <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+          <MenuIcon />
+        </IconButton>
+        {children}
         <div>Logged in as: {user.currentUser}</div>
-      </AppBar>
-    </div>
+      </Toolbar>
+    </AppBar>
+
   );
 }
 

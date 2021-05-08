@@ -1,24 +1,34 @@
 import { makeStyles } from "@material-ui/core/styles";
+import { Link } from "@material-ui/core";
 
 import React, { useEffect, useState } from "react";
 
 import axios from "axios";
 
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link as RouterLink,
+} from "react-router-dom";
 
 import Container from "./components/Container";
+import EmailSent from "./components/EmailSent";
 import Form from "./components/Form";
-import Login2 from "./components/Login2";
+import Login from "./components/Login";
 import Navbar from "./components/Navbar";
+import PasswordRequest from "./components/PasswordRequest";
+import PasswordReset from "./components/PasswordReset";
 import Register from "./components/Register";
 import Table from "./components/Table";
-
+import Topics from "./components/Topics";
 const useStyles = makeStyles(theme => ({
   container: {
     marginTop: "4rem",
   },
-  nav: {
-    display: "flex",
+  link: {
+    color: "white",
+    marginRight: "1rem",
   },
 }));
 
@@ -57,32 +67,46 @@ function App() {
         <Navbar>
           <div className={classes.nav}>
             <nav>
-              <ul>
-                <li>
-                  <Link to='/'>Table</Link>
-                </li>
-                <li>
-                  <Link to='/login'>Login</Link>
-                </li>
-                <li>
-                  <Link to='/register'>Register</Link>
-                </li>
-                <li>
-                  <Link to='/users'>Users</Link>
-                </li>
-              </ul>
+              <Link className={classes.link} component={RouterLink} to='/'>
+                Table
+              </Link>
+
+              <Link className={classes.link} component={RouterLink} to='/login'>
+                Login
+              </Link>
+
+              <Link className={classes.link} component={RouterLink} to='/users'>
+                Users
+              </Link>
+
+              <Link
+                className={classes.link}
+                component={RouterLink}
+                to='/topics'
+              >
+                Topics
+              </Link>
             </nav>
           </div>
         </Navbar>
         <Switch>
           <Route path='/login'>
-            <Login2 />
+            <Login />
           </Route>
           <Route path='/register'>
             <Register />
           </Route>
-          <Route path='/users'>
-            <Users />
+          <Route path='/request-password'>
+            <PasswordRequest />
+          </Route>
+          <Route path='/reset-password'>
+            <PasswordReset />
+          </Route>
+          <Route path='/email-sent'>
+            <EmailSent />
+          </Route>
+          <Route path='/topics'>
+            <Topics />
           </Route>
           <Route path='/'>
             <Form

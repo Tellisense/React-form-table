@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SignIn = () => {
+const Login = () => {
   const classes = useStyles();
   const user = useUser()
   const history = useHistory();
@@ -136,7 +136,7 @@ const SignIn = () => {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
+              <Link href="/request-password" variant="body2">
                 Forgot password?
               </Link>
             </Grid>
@@ -156,4 +156,4 @@ const SignIn = () => {
 }
 
 
-export default SignIn
+export default Login
