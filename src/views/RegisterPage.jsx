@@ -15,8 +15,7 @@ import Container from '@material-ui/core/Container';
 import axios from 'axios'
 import { useUser } from '../context/UserProvider'
 import { useHistory } from 'react-router-dom';
-import Copyright from './Copyright'
-
+import Copyright from '../components/Copyright'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -38,20 +37,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Login = () => {
+const RegisterPage = () => {
   const classes = useStyles();
-  const user = useUser()
   const history = useHistory();
+  const user = useUser()
 
-  const [loginData, setLoginData] = useState({
+
+  const [registerData, setRegisterData] = useState({
+    firstName: '',
+    lastName: '',
+    username: "",
     email: '',
     password: ''
   })
 
 
   const handleChange = e => {
-    setLoginData({
-      ...loginData,
+    setRegisterData({
+      ...registerData,
       [e.target.name]: e.target.value
     })
   }
@@ -60,18 +63,24 @@ const Login = () => {
     e.preventDefault()
     // make the api call
     try {
-      const { data } = await axios.post('http://localhost:1337/auth/local', {
-        identifier: loginData.email,
-        password: loginData.password,
+      const { data } = await axios.post('http://localhost:1337/auth/local/register', {
+        firstName: registerData.firstName,
+        lastName: registerData.lastName,
+        username: registerData.username,
+        email: registerData.email,
+        password: registerData.password
       });
-      console.log(`data:`, data)
+      console.log(`register data:`, data)
       user.setCurrentUser(data.user.email)
       localStorage.setItem('token', data.jwt);
-      setLoginData({
+      setRegisterData({
+        firstName: '',
+        lastName: '',
+        username: '',
         email: '',
         password: ''
       })
-      history.push("/");
+      history.replace("/");
 
     } catch (ex) {
       console.log(ex)
@@ -91,9 +100,48 @@ const Login = () => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          Register
         </Typography>
         <form className={classes.form} noValidate>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="firstName"
+            label="First Name"
+            name="firstName"
+            value={registerData.firstName}
+            autoComplete="firstName"
+            onChange={handleChange}
+            autoFocus
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="lastName"
+            label="Last Name"
+            name="lastName"
+            value={registerData.lastName}
+            autoComplete="lastName"
+            onChange={handleChange}
+
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="username"
+            label="Username"
+            name="username"
+            value={registerData.username}
+            autoComplete="email"
+            onChange={handleChange}
+
+          />
           <TextField
             variant="outlined"
             margin="normal"
@@ -105,7 +153,7 @@ const Login = () => {
             value={FormData.email}
             autoComplete="email"
             onChange={handleChange}
-            autoFocus
+
           />
           <TextField
             variant="outlined"
@@ -132,17 +180,17 @@ const Login = () => {
             color="primary"
             className={classes.submit}
           >
-            Sign In
+            Register
           </Button>
           <Grid container>
-            <Grid item xs>
-              <Link href="/request-password" variant="body2">
+            {/* <Grid item xs>
+              <Link href="#" variant="body2">
                 Forgot password?
               </Link>
-            </Grid>
+            </Grid> */}
             <Grid item>
-              <Link href="/register" variant="body2">
-                {"Don't have an account? Sign Up"}
+              <Link href="/login" variant="body2">
+                {"Already have an account? login"}
               </Link>
             </Grid>
           </Grid>
@@ -156,4 +204,4 @@ const Login = () => {
 }
 
 
-export default Login
+export default RegisterPage

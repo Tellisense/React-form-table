@@ -6,13 +6,21 @@ export const useUser = () => {
   return useContext(UserContext)
 }
 
-const UserProvider = ({ children }) => {
+const UserProvider = (props) => {
   const [currentUser, setCurrentUser] = useState('')
 
   console.log(`currentUser: `, currentUser)
+
+  const currentUserValues = React.useMemo(() => {
+    return (
+      { currentUser, setCurrentUser }
+    )
+  }, [currentUser, setCurrentUser])
+
+
   return (
-    <UserContext.Provider value={{ currentUser, setCurrentUser }}>
-      {children}
+    <UserContext.Provider value={currentUserValues}>
+      {props?.children}
     </UserContext.Provider>
   )
 }

@@ -1,4 +1,5 @@
 import React from "react";
+import Topic from './Topic'
 import {
   Switch,
   Route,
@@ -42,7 +43,4 @@ export default function Topics() {
   );
 }
 
-function Topic() {
-  let { topicId } = useParams();
-  return <h3>Requested topic ID: {topicId}</h3>;
-}
+

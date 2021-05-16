@@ -15,7 +15,8 @@ import Container from '@material-ui/core/Container';
 import axios from 'axios'
 import { useUser } from '../context/UserProvider'
 import { useHistory } from 'react-router-dom';
-import Copyright from './Copyright'
+import Copyright from '../components/Copyright'
+import { useLocation } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -37,50 +38,48 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Register = () => {
+const PasswordResetPage = () => {
   const classes = useStyles();
-  const history = useHistory();
   const user = useUser()
+  const history = useHistory();
+  let location = useLocation();
+  const [code, setCode] = useState('')
+  React.useEffect(() => {
+    setCode(location.search.split('code=').pop())
+  }, [location]);
 
-
-  const [registerData, setRegisterData] = useState({
-    firstName: '',
-    lastName: '',
-    username: "",
-    email: '',
-    password: ''
+  const [formData, setFormData] = useState({
+    password: '',
+    passwordConfirmation: ''
   })
 
 
   const handleChange = e => {
-    setRegisterData({
-      ...registerData,
+    setFormData({
+      ...formData,
       [e.target.name]: e.target.value
     })
   }
+
 
   const handleSubmit = async e => {
     e.preventDefault()
     // make the api call
     try {
-      const { data } = await axios.post('http://localhost:1337/auth/local/register', {
-        firstName: registerData.firstName,
-        lastName: registerData.lastName,
-        username: registerData.username,
-        email: registerData.email,
-        password: registerData.password
+      const { data } = await axios.post('http://localhost:1337/auth/reset-password', {
+        code: code,
+        password: formData.password,
+        passwordConfirmation: formData.passwordConfirmation
       });
-      console.log(`register data:`, data)
+
+      console.log(`passwordReset response:`, data)
       user.setCurrentUser(data.user.email)
       localStorage.setItem('token', data.jwt);
-      setRegisterData({
-        firstName: '',
-        lastName: '',
-        username: '',
+      setFormData({
         email: '',
         password: ''
       })
-      history.push("/");
+      history.replace("/");
 
     } catch (ex) {
       console.log(ex)
@@ -100,7 +99,7 @@ const Register = () => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Register
+          Reset password
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
@@ -108,65 +107,28 @@ const Register = () => {
             margin="normal"
             required
             fullWidth
-            id="firstName"
-            label="First Name"
-            name="firstName"
-            value={registerData.firstName}
-            autoComplete="firstName"
+            id="password"
+            label="Password"
+            name="password"
+            type="password"
+            value={FormData.password}
+            autoComplete="password"
             onChange={handleChange}
             autoFocus
           />
           <TextField
             variant="outlined"
             margin="normal"
-            required
-            fullWidth
-            id="lastName"
-            label="Last Name"
-            name="lastName"
-            value={registerData.lastName}
-            autoComplete="lastName"
-            onChange={handleChange}
-
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="username"
-            label="Username"
-            name="username"
-            value={registerData.username}
-            autoComplete="email"
-            onChange={handleChange}
-
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            value={FormData.email}
-            autoComplete="email"
-            onChange={handleChange}
-
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
             type="password"
-            id="password"
-            value={FormData.password}
+            required
+            fullWidth
+            id="passwordConfirmation"
+            label="Password Confirmation"
+            name="passwordConfirmation"
+            value={FormData.passwordConfirmation}
+            autoComplete="password confirmation"
             onChange={handleChange}
-            autoComplete="current-password"
+            autoFocus
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
@@ -180,17 +142,13 @@ const Register = () => {
             color="primary"
             className={classes.submit}
           >
-            Register
+            Reset Password
           </Button>
           <Grid container>
-            {/* <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid> */}
+
             <Grid item>
               <Link href="/login" variant="body2">
-                {"Already have an account? login"}
+                {"remember your password? Log In"}
               </Link>
             </Grid>
           </Grid>
@@ -204,4 +162,4 @@ const Register = () => {
 }
 
 
-export default Register
+export default PasswordResetPage

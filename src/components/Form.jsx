@@ -42,11 +42,13 @@ export default function Form({ renderApi, setCounter, counter }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-
     try {
-      const { data } = await axios.post('http://localhost:1337/orders', formData)
-      console.log(data)
-      setCounter(counter + 1)
+      const { data } = await axios.post('http://localhost:1337/orders', {
+        data: formData,
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      })
       renderApi()
       setFormData({
         appetizer: '',
@@ -55,12 +57,11 @@ export default function Form({ renderApi, setCounter, counter }) {
         dessert: '',
         email: ''
       })
+      console.log(`formData response:`, data)
 
     } catch (ex) {
       console.log(ex)
     }
-
-
   }
 
 
