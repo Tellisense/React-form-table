@@ -71,8 +71,7 @@ const RegisterPage = () => {
         password: registerData.password
       });
       console.log(`register data:`, data)
-      user.setCurrentUser(data.user.email)
-      localStorage.setItem('token', data.jwt);
+
       setRegisterData({
         firstName: '',
         lastName: '',
@@ -80,7 +79,7 @@ const RegisterPage = () => {
         email: '',
         password: ''
       })
-      history.replace("/");
+      history.replace("/confirm-registration");
 
     } catch (ex) {
       console.log(ex)

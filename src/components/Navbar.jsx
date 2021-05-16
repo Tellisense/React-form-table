@@ -14,6 +14,7 @@ import { useUser } from '../context/UserProvider'
 import { Link } from "@material-ui/core";
 import { useTheme } from '../context/ThemeProvider'
 import MainPage from '../views/MainPage'
+import ConfirmRegistration from '../views/ConfirmRegistration';
 import {
   Switch,
   Route,
@@ -96,6 +97,9 @@ export default function Navbar(props) {
         </Route>
         <Route path='/topics'>
           <Topics />
+        </Route>
+        <Route path='/confirm-registration'>
+          <ConfirmRegistration />
         </Route>
         <Route path='/'>
           <MainPage />
