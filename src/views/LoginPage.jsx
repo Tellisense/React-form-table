@@ -58,13 +58,19 @@ const LoginPage = () => {
 
   const handleSubmit = async e => {
     e.preventDefault()
-    // make the api call
+    // fetch API
     try {
-      const { data } = await axios.post('http://localhost:1337/auth/local', {
-        identifier: loginData.email,
-        password: loginData.password,
-      });
-      console.log(`data:`, data)
+      const response = await fetch('http://localhost:1337/auth/local', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'Application/json'
+        },
+        body: JSON.stringify({
+          identifier: loginData.email,
+          password: loginData.password,
+        })
+      })
+      const data = await response.json()
       user.setCurrentUser(data.user.email)
       localStorage.setItem('token', data.jwt);
       setLoginData({
@@ -73,9 +79,35 @@ const LoginPage = () => {
       })
       history.replace("/");
 
-    } catch (ex) {
-      console.log(ex)
+      console.log(data)
+
+    } catch (error) {
+      console.log(`the error you are getting: `, error)
     }
+
+
+
+
+
+
+    // Axios
+    // try {
+    //   const { data } = await axios.post('http://localhost:1337/auth/local', {
+    //     identifier: loginData.email,
+    //     password: loginData.password,
+    //   });
+    //   console.log(`data:`, data)
+    //   user.setCurrentUser(data.user.email)
+    //   localStorage.setItem('token', data.jwt);
+    //   setLoginData({
+    //     email: '',
+    //     password: ''
+    //   })
+    //   history.replace("/");
+
+    // } catch (ex) {
+    //   console.log(ex)
+    // }
 
 
     //response of the api call will save user into context

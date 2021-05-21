@@ -62,28 +62,59 @@ const RegisterPage = () => {
   const handleSubmit = async e => {
     e.preventDefault()
     // make the api call
-    try {
-      const { data } = await axios.post('http://localhost:1337/auth/local/register', {
+
+    fetch('http://localhost:1337/auth/local/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
         firstName: registerData.firstName,
         lastName: registerData.lastName,
         username: registerData.username,
         email: registerData.email,
         password: registerData.password
-      });
-      console.log(`register data:`, data)
-
-      setRegisterData({
-        firstName: '',
-        lastName: '',
-        username: '',
-        email: '',
-        password: ''
       })
-      history.replace("/confirm-registration");
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        setRegisterData({
+          firstName: '',
+          lastName: '',
+          username: '',
+          email: '',
+          password: ''
+        })
+        history.replace("/confirm-registration");
+      })
+      .catch(error => console.log(`this is an errror: `, error))
 
-    } catch (ex) {
-      console.log(ex)
-    }
+
+
+
+    // try {
+    //   const { data } = await axios.post('http://localhost:1337/auth/local/register', {
+    //     firstName: registerData.firstName,
+    //     lastName: registerData.lastName,
+    //     username: registerData.username,
+    //     email: registerData.email,
+    //     password: registerData.password
+    //   });
+    //   console.log(`register data:`, data)
+
+    //   setRegisterData({
+    //     firstName: '',
+    //     lastName: '',
+    //     username: '',
+    //     email: '',
+    //     password: ''
+    //   })
+    //   history.replace("/confirm-registration");
+
+    // } catch (ex) {
+    //   console.log(ex)
+    // }
 
 
     //response of the api call will save user into context
